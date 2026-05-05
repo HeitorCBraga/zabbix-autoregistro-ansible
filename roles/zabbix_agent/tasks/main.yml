@@ -1,0 +1,45 @@
+---
+- name: Instalar repositório do Zabbix 7
+  ansible.builtin.dnf:
+    name: "https://repo.zabbix.com/zabbix/7.0/rocky/9/x86_64/zabbix-release-7.0-1.el9.noarch.rpm"
+    state: present
+    disable_gpg_check: true
+
+- name: Instalar Zabbix Agent 2
+  ansible.builtin.dnf:
+    name: zabbix-agent2
+    state: present
+
+- name: Configurar Server
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    regexp: '^Server='
+    line: "Server={{ zabbix_server_ip }}"
+  notify: restart zabbix-agent2
+
+- name: Configurar ServerActive
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    regexp: '^ServerActive='
+    line: "ServerActive={{ zabbix_server_ip }}"
+  notify: restart zabbix-agent2
+
+- name: Configurar Hostname
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    regexp: '^Hostname='
+    line: "Hostname={{ inventory_hostname }}"
+  notify: restart zabbix-agent2
+
+- name: Configurar HostMetadata para auto-registro
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    regexp: '^# HostMetadata='
+    line: "HostMetadata={{ zabbix_host_metadata }}"
+  notify: restart zabbix-agent2
+
+- name: Habilitar e iniciar o Zabbix Agent 2
+  ansible.builtin.systemd:
+    name: zabbix-agent2
+    enabled: true
+    state: started

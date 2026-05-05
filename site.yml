@@ -1,0 +1,5 @@
+---
+- name: Provisionar Zabbix Agent
+  hosts: lab
+  roles:
+    - zabbix_agent
