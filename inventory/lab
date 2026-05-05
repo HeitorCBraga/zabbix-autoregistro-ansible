@@ -1,5 +1,5 @@
 [lab]
-rocky ansible_host=192.168.100.51
+rocky ansible_host=SEU_IP_SERVIDOR
 
 [lab:vars]
 ansible_python_interpreter=/usr/bin/python3
