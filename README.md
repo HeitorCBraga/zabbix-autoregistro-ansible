@@ -43,7 +43,7 @@ Host aparece no frontend com grupo e template
 - Ubuntu Server com Ansible instalado
 - Zabbix Server 7 rodando e acessível
 - Servidor Rocky Linux 9 acessível via SSH
-- Usuário `ansible` criado no servidor remoto com sudo sem senha
+- Usuário `ansible` criado no servidor remoto
 
 ---
 
